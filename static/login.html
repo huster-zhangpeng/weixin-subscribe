@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn" manifest="store.appcache">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="application-name" content="login">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>登录</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Custom styles for this template -->
+    <style title="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+      }
+
+      .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin .checkbox {
+        font-weight: normal;
+      }
+      .form-signin .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      .form-signin .form-control:focus {
+        z-index: 2;
+      }
+      .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+    </style>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" role="form" method="POST" action="../wxstore/login">
+        <h2 class="form-signin-heading">请登录</h2>
+        <input type="text" name="phone" class="form-control" placeholder="手机号" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="密码" required>
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> 记住我！
+        </label>
+        <button id="signin" class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+      </form>
+
+    </div> <!-- /container -->
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      !window.jQuery && document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'><\/script>");
+    </script>
+    <script type="text/javascript">
+      $(function(){
+        $('button#signin').click(function(e){
+          e.preventDefault();
+          $.ajax({
+            url: '../wxstore/login',
+            method: 'POST',
+            data: {
+              phone: $("input[name='phone']").val(),
+              password: $("input[name='password']").val()
+            },
+            dataType: 'json',
+            success: function(data, e) {
+              if(data.ret != 0) {
+                alert(data.msg);
+                return;
+              }
+
+              window.location.href = "morder.html";
+            }
+          });
+        }); 
+      });
+    </script>
+  </body>
+</html>
+

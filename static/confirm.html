@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html manifest="static/store.appcache">
+  <head>
+    <title>确认</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0"/>
+    <meta name="application-name" content="店小二">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
+    <script type="text/javascript">
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideOptionMenu');
+          });
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideToolbar');
+      });
+    </script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body> 
+    <div class="container" style="margin-top:20px;">
+      <div class="col-xs-12 col-sm-9">
+        <ol class="breadcrumb">
+          <li><a id="home" href="store.html">店小二</a></li>
+          <li><a id="shopname" href="good.html">2冲饼店</a></li>
+          <li class="active">确认订单</li>
+        </ol>
+        <hr/>
+
+        <h4><span class="label label-info">订单详情</span></h4>
+        <h3 id="none-tip" style="display:none;">当前购物车没有商品！</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>商品</th>
+              <th>价格</th>
+              <th>数量</th>
+            </tr>
+          </thead>
+          <tfoot align="right">
+            <tr>
+              <td colspan="3"><strong>总计: ￥</strong><span id="total">0.0</span></td>
+            </tr>
+          </tfoot>
+          <tbody>
+          </tbody>
+        </table>
+
+        <h4><span class="label label-info">配送地址</span></h4>
+        <form class="form-horizontal" role="form" style="margin-top: 18px">
+          <!-- Nav tabs -->
+          <ul id="myTab" class="nav nav-tabs">
+            <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span id="displayaddr">地址</span><span class="caret"></span>
+            </a>
+            <ul id="all-addr-nav" class="dropdown-menu">
+            </ul>
+            </li>
+            <li class="pull-right"><a href="#addr-new" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span></a></li>
+          </ul>
+          <!-- Tab panes -->
+          <div id="all-addr" class="tab-content" style="margin-top:20px;">
+            <div class="tab-pane fade" id="addr-new">
+              <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                  <input id="name" type="text" class="form-control" placeholder="您的称呼" autofocus />
+                </div>
+              </div>
+              <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span></span>
+                  <input id="street" type="text" class="form-control" placeholder="街、区" />
+                </div>
+              </div>
+              <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                  <input id="detail" type="text" class="form-control" placeholder="楼栋、层、房间号" />
+                </div>
+              </div>
+              <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+                  <input id="phone" type="text" class="form-control" placeholder="您的联系方式"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+              <input id="request-time" type="text" class="form-control" placeholder="送货时间" value='请尽快送达！' />
+              <div class="input-group-btn dropup">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul id="choice" class="dropdown-menu pull-right">
+                  <li><a href="#">请尽快送达！</a></li>
+                  <li><a href="#">1小时之内</a></li>
+                  <li><a href="#">不着急</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">6:00-8:00</a></li>
+                  <li><a href="#">8:00-11:00</a></li>
+                  <li><a href="#">11:00-13:00</a></li>
+                  <li><a href="#">13:00-18:00</a></li>
+                  <li><a href="#">18:00-20:00</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+            </div>
+          </div>
+          <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+              <input id="remarks" type="text" class="form-control" placeholder="备注(可选)"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-1 col-xs-offset-2">
+              <div class="radio-inline" style="height:26px; padding-left:0">
+                <label>
+                  <input type="radio" name="work" value="0" style="margin-top:2px" checked />货到付款
+                </label>
+              </div>
+              <div class="radio-inline" style="height:26px;">
+                <label>
+                  <input type="radio" name="work" value="1" style="margin-top:2px" disabled />微信支付(暂不支持)
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <button id="confirm-to-buy" type="submit" class="btn btn-primary btn-block">确认购买</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">提示：</h4>
+              </div>
+              <div class="modal-body" id="tip-content">
+                请完善您的新地址信息！
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="iknow" class="btn btn-primary">我知道了～</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <hr>
+        <footer>
+        <p style="text-align:center;">&copy; Company 2014</p>
+        </footer>
+      </div>
+    </div> <!-- container end -->
+
+    <div class="navbar navbar-default navbar-fixed-bottom" role="navigation" id='mynav'>
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">店小二</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="store.html">返回首页</a></li>
+            <li><a href="order.html">我的订单</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      !window.jQuery && document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'><\/script>");
+    </script>
+    <script src="js/jquery.urldecoder.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+$(function(){
+  var $_GET = (function(){
+    var url = window.document.location.href.toString();
+    var u = url.split("?");
+    if(typeof(u[1]) == "string"){
+      u = u[1].split("&");
+      var get = {};
+      for(var i in u){
+        var j = u[i].split("=");
+        get[j[0]] = j[1];
+      }
+      return get;
+    } else {
+      return {};
+    }
+  })();
+  if(!localStorage.user || !localStorage.sid || !localStorage.sname){
+    window.history.go(-2);
+    return;
+  }
+
+  $("a#shopname").text(localStorage.sname);
+  $("a#shopname").click(function(e){
+    e.preventDefault();  
+    window.history.go(-1);
+  });
+  $('a#home').click(function(e){
+    e.preventDefault();
+    window.history.go(-2);
+  });
+  $("ul#choice > li > a").click(function(e){
+    e.preventDefault();
+    $("input#request-time").val($(this).text());
+  });
+  $("input").on({
+    'focus': function(e) {
+      $('#mynav').hide();
+    },
+    'blur': function(e) {
+      $('#mynav').show();
+    }
+  });
+
+  var cart = localStorage.cart && JSON.parse(localStorage.cart);
+  if(!cart) {
+    $('table').hide();
+    $('h3#none-tip').show();
+    window.history.go(-1);
+  }
+  var buy = cart && cart.buy;
+  for(var id in buy) {
+    var item = buy[id];
+    $('table > tbody').append("<tr><td>"+item.name+ "</td><td>"+item.price+"</td><td>"+item.num+"</td></tr>");
+  }
+  $("span#total").text(cart.sum.toFixed(1)); 
+
+  if(sessionStorage.addresses) {
+    var addresses = JSON.parse(sessionStorage.addresses);
+    fillAddress(addresses);
+  } else { 
+    $.ajax({
+      url: "../wxstore/addresses",
+      method: 'POST',
+      data: {'user': localStorage.user},
+      dataType: "json",
+      success: function(data, e) {
+        if(data.ret != 0) return;
+
+        sessionStorage.addresses = JSON.stringify(data.data);
+        fillAddress(data.data);
+      }
+    });
+  }
+  function fillAddress(addresses) {
+    if(addresses.length == 0) {
+      $("ul#myTab").prepend("<li><a href='#addr-none' data-toggle='tab'>您还没有地址！</a></li>");
+      $('ul#myTab > li.dropdown').hide();
+      $('#myTab > li:eq(2) a').tab('show');
+      return;
+    }
+    if(addresses.length == 1) {
+      var address = addresses[0];
+      $("ul#myTab").prepend("<li><a href='#addr-"+address.id+"' data-toggle='tab'>"+address.alias+"</a></li>");
+      $("div#all-addr").append(
+          "<div class='tab-pane fade' id='addr-"+address.id+"'><address>" +
+          "<strong>" + address.name + "</strong><br>" + address.street + "<br>" + address.detail + 
+          "<br><abbr title='手机'>" + address.phone + "</abbr></address><div class='form-group'>" +
+          "<div class='checkbox-inline pull-right' style='height:26px; margin-right: 30px;'><label>" +
+          "<input type='checkbox' value='0' style='margin-top:2px;' checked disabled /> 嗯,使用这个地址!</label></div></div></div>"
+          );
+      $('ul#myTab > li.dropdown').hide();
+      $('#myTab > li:eq(0) a').tab('show');
+      return;
+    }
+
+    for(var i = 0; i < addresses.length; i++) {
+      var address = addresses[i];
+      $("ul#all-addr-nav").append("<li><a href='#addr-"+address.id+"' data-toggle='tab'>"+address.alias+"</a></li>");
+      $("div#all-addr").append(
+          "<div class='tab-pane fade' id='addr-"+address.id+"'><address>" +
+          "<strong>" + address.name + "</strong><br>" + address.street + "<br>" + address.detail + 
+          "<br><abbr title='手机'>" + address.phone + "</abbr></address><div class='form-group'>" +
+          "<div class='checkbox-inline pull-right' style='height:26px; margin-right: 30px;'><label>" +
+          "<input type='checkbox' value='0' style='margin-top:2px;' checked disabled /> 嗯,使用这个地址!</label></div></div></div>"
+          );
+    }
+    $('span#displayaddr').text(addresses[0].alias); 
+    $('ul#all-addr-nav > li:eq(0) a').tab('show');
+    $('ul#all-addr-nav > li:eq(0)').hide();
+    $('ul#myTab > li.dropdown > a').on('click', function(e){
+      var aid = $('div#all-addr > div.active').attr('id').split('-')[1];
+      if(aid == 'new') {
+        e.preventDefault();
+        var tmp = $('span#displayaddr').text();   
+        $('ul#all-addr-nav > li').each(function(){
+          if($(this.firstChild).text() == tmp) {
+            $(this.firstChild).tab('show');
+            return false;
+          }  
+        });
+        return;
+      }
+    });
+    $('ul#all-addr-nav > li').click(function(e){
+      var alias = $(this.firstChild).text();
+      $('span#displayaddr').text(alias); 
+      $('ul#all-addr-nav > li').show();
+      $(this.firstChild).tab('show');
+      $(this).hide();
+    });
+  }
+  $("button#confirm-to-buy").click(function(e){
+    e.preventDefault();    
+    var address, aid = $('div#all-addr > div.active').attr('id').split('-')[1];
+    if(aid == "new") {
+      address = {
+        type:'new',
+        name: $("#name").val(),
+        street: $("#street").val(),
+        detail: $("#detail").val(),
+        phone: $("#phone").val(),
+      };
+      var tip = {
+        name: "称呼", street: "街、区", detail: "楼栋、层、单元、房间号", phone: "联系方式"
+      };
+      for(var property in address) if(!address[property]) {
+        $("div#tip-content").text("您的"+tip[property]+"尚未填写，请先完善您的新地址信息！");
+        $('#myModal').modal('show');
+        $("button#iknow").click(function(e) {
+          var key = property;
+          $('#myModal').modal('hide');
+          $("input#"+key).focus();
+        });
+        return;
+      }
+      var mobile = /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;
+      var phone = /^((\+86)|(86))?[1][358]\d{9}$/;
+      if(!phone.test(address.phone) && !mobile.test(address.phone)) {
+        $("div#tip-content").text("您的联系方式格式不正确，我们可能无法联系到你，请检查！ ");
+        $('#myModal').modal('show');
+        $("button#iknow").click(function(e) {
+          $('#myModal').modal('hide');
+          $("input#phone").focus();
+        });
+        return;
+      }
+      sessionStorage.addresses = '';
+    } else {
+      address = {
+        type: 'exist',
+        aid: aid
+      }
+    }
+    $.ajax({
+      url: "../wxstore/addOrder",
+      method: "POST",
+      data: {
+        user: localStorage.user,
+      sid: localStorage.sid,
+      cart: JSON.stringify(cart.buy),
+      cost: cart.sum,
+      addr: JSON.stringify(address),
+      requestTime: $('#request-time').val(),
+      tag: $('#remarks').val()
+      },
+      dataType: 'json',
+      success: function(data, e) {
+        if(data.ret == 0) {
+          localStorage.cart = '';
+          sessionStorage.orders = '';
+          window.location.href = 'order.html';
+        }
+      }
+    });
+  })
+});
+    </script>
+  </body>
+</html>

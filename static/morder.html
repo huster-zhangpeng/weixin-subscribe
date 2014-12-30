@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>订单管理</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="application-name" content="店小二">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
+    <style type="text/css">
+      caption {
+        text-align: left;
+      }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">店小二</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="#">订单管理</a></li>
+            <li><a href="mforder.html">已完成订单</a></li>
+            <li><a href="mgoods.html">商品管理</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <video id="hint" src="video/hint.ogg" class='hidden'>
+    Your browser does not support the video tag.
+    </video>
+    <div class="container">
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <div class="page-header">
+            <h3>
+              订单推送 <small>欢迎使用网页版！</small>
+            </h3>
+          </div>
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#new" data-toggle="tab">
+              新订单<span id='a-0' class="badge">0</span></a>
+            </li>
+            <li><a href="#started" data-toggle="tab">已处理订单<span id='a-1' class="badge">0</span></a></li>
+            <li><a href="#sending" data-toggle="tab">正在派送订单<span id='a-2' class="badge">0</span></a></li>
+          </ul>
+          <div class="tab-content" style="margin-top:20px;">
+            <div class="tab-pane fade active in" id="new">
+              <div class="list-group">
+                <a class="list-group-item active"><span class="badge" id="counter-0">0</span>订单数</a>
+                <div class="list-group-item" id="order-type-0">
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="started">
+              <div class="list-group">
+                <a class="list-group-item active"><span class="badge" id="counter-1">0</span>订单数</a>
+                <div class="list-group-item" id="order-type-1">
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="sending">
+              <div class="list-group">
+                <a class="list-group-item active"><span class="badge" id="counter-2">0</span>订单数</a>
+                <div class="list-group-item" id="order-type-2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      !window.jQuery && document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'><\/script>");
+      </script>
+      <script src="js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/morder.js"> </script>
+    </body>
+  </html>

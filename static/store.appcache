@@ -1,0 +1,19 @@
+CACHE MANIFEST
+#2014-03-09 v1.0.13
+
+css/bootstrap.min.css
+css/bootstrap.icon-large.min.css
+js/jquery.min.js
+js/jquery.urldecoder.min.js
+js/bootstrap.min.js
+js/html5shiv.min.js
+js/respond.min.js
+js/good.js
+fonts/glyphicons-halflings-regular.eot
+fonts/glyphicons-halflings-regular.svg
+fonts/glyphicons-halflings-regular.ttf
+fonts/glyphicons-halflings-regular.woff
+img/qrcode.jpg
+store.html
+good.html
+confirm.html

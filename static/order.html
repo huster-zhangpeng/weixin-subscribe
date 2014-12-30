@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html manifest="static/store.appcache">
+  <head>
+    <title>我的订单</title>
+    <meta charset="utf-8">
+    <!-- meta name="viewport" content="width=device-width, initial-scale=1.0" -->
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0"/>
+    <meta name="application-name" content="店小二">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideOptionMenu');
+      });
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+          WeixinJSBridge.call('hideToolbar');
+      });
+    </script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="js/html5shiv.min.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+  </head>
+  <body> 
+    <div class="container" style="margin-top:20px;">
+      <div class="col-xs-12 col-sm-9">
+        <ol class="breadcrumb">
+          <li><a href="store.html">商城</a></li>
+          <li id="shopname" class="active">我的订单</li>
+        </ol>
+        <hr/>
+
+        <div class="panel-group" id="accordion">
+        </div>
+
+        <hr/>
+        <footer>
+        <p style="text-align:center;">&copy; Company 2014</p>
+        </footer>
+      </div>
+    </div> <!-- container end -->
+
+    <div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">店小二</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="store.html">返回首页</a></li>
+            <li><a id="refresh" href="#">刷新订单</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      !window.jQuery && document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'><\/script>");
+      </script>
+      <script src="js/jquery.urldecoder.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script type="text/javascript">
+$(function(){
+  if(!localStorage.user){
+    window.history.go(-1); 
+    return;
+  }
+
+  $("a#refresh").on('click', function(e){
+    e.preventDefault();
+    sessionStorage.orders = "";
+    $("div#accordion > div").remove();
+    getOrder();
+  });
+
+  var orderState = ["商家已接到订单", "正在处理...", "正在派送..."];
+  function getOrder() {
+    if(sessionStorage.orders) {
+      var orders = JSON.parse(sessionStorage.orders);
+      fillOrder(orders);
+    } else {
+      $.ajax({
+        url: "../wxstore/myOrder",
+        method: 'POST',
+        data: {'user': localStorage.user},
+        dataType: 'json',
+        success: function(data, e) {
+          if(data.ret != 0) {
+            return;
+          }
+
+          sessionStorage.orders = JSON.stringify(data.data);
+          fillOrder(data.data);
+        },
+        error: function(){
+          sessionStorage.orders = '';
+        }
+      });
+    }
+    function fillOrder(orders) {
+      for(var i = 0; i < orders.length; i++) {
+        var order = orders[i];
+        var innerHtml = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" + 
+          "<a data-toggle='collapse' data-toggle='collapse' data-parent='#accordion' href='#collapse-" +
+          order.id+"'>订单号:" + order.o_no + "</a><a class='pull-right' href='#'><span class=''></span>" +
+          "</a></h4></div><div id='collapse-"+order.id+"' class='panel-collapse collapse'>" + 
+          "<div class='panel-body'><h4><span class='label label-info'>买自于:" + order.store + 
+          "</span></h4><table class='table'><thead><tr><th>商品</th><th>价格</th><th>数量</th></tr>" +
+          "</thead><tfoot align='right'><tr><td colspan='3'><strong>总计: ￥</strong><span id='total'>" + 
+          parseFloat(order.cost).toFixed(1) + "</span></td></tr></tfoot><tbody>";
+        var buy = order.buy;
+        for(var j = 0; j < buy.length; j++) {
+          var good = buy[j];
+          innerHtml += "<tr><td>" + good.name + "</td><td>￥" + parseFloat(good.price).toFixed(1)
+            + "</td><td>" + good.num + "</td></tr>";
+        }
+        var addr = order.addr;
+        innerHtml += "</tbody></table><h4><span class='label label-info'>配送地址" + 
+          "</span></h4><address><strong>"+addr.name+"</strong><br/>"+addr.street + 
+          "<br/>" + addr.detail + "<br/><abbr title='手机'>"+addr.phone + "</abbr></address>" +
+          "<address><strong>下单时间："+order.pub_date+"</strong><br><strong>要求送达："+order.rt+"</strong>";
+        if(order.remarks) {
+          innerHtml += "<br/>备注："+order.remarks;
+        }
+        innerHtml += "<br/>订单状态：" + orderState[order.status];
+        innerHtml += "</address><button type='button' class='btn btn-danger btn-sm pull-right"+
+          (order.status==0?" co'":"' disabled") + ">取消订单</button></div></div></div>";
+
+        $("div#accordion").append(innerHtml);
+      }
+      $("div.panel-collapse:eq(0)").addClass('in');
+      $("button.co").click(function(e) {
+        var obj = $(this).parent().parent();
+        var oid = obj.attr('id').split('-')[1];
+        $.ajax({
+          url: "../wxstore/delOrder",
+          method: "POST",
+          data: {id: oid},
+          dataType: 'json',
+          success: function(data, e) {
+            if(data.ret == 0) {
+              obj.parent().remove(); 
+              sessionStorage.orders = '';
+            } else {
+              alert(data.msg);
+            }
+          }
+        });
+      });
+    }
+  }
+  getOrder();
+});
+      </script>
+    </body>
+  </html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html manifest="store.appcache">
+  <head>
+    <title>店小二</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="application-name" content="店小二">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-bottom: 70px;
+      }
+      .panel-group a:hover {
+        text-decoration: none;
+      }
+      .panel-group a:active {
+        color: #428BCA;
+        text-decoration: none;
+      }
+    </style>
+    <script type="text/javascript">
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideOptionMenu');
+      });
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+      });
+    </script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container" style="margin-top:20px;">
+      <div class="col-xs-12 col-sm-9">
+        <!-- Nav tabs -->
+        <ul id="myTab" class="nav nav-tabs">
+          <li class="active"><a href="#shopping" data-toggle="tab">店小二</a></li>
+          <li><a href="#contactus" data-toggle="tab">联系我们</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div id="tip" class="alert alert-warning alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>温馨提示:</strong> 请先在微信中关注我们.
+        </div>
+        <div class="tab-content" style="margin-top:20px;">
+          <div class="tab-pane fade active in" id="shopping">
+            <div class="list-group" id="stores">
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="contactus">
+            <address>
+              我是您忠实的贴身生活小助手！<br />
+              <div>
+                <h4>微信号：wbw613</h4>
+                <p><img src="img/qrcode.jpg" alt="扫描二维码,关注我们!" /></p>
+              </div>
+              地址: 江苏盐城<br />
+              Email：<a href="mailto:935752760@qq.com">935752760@qq.com</a><br />
+              电话: 15861939750
+            </address>
+          </div>
+        </div>
+
+        <hr/>
+        <footer>
+        <p style="text-align:center;">&copy; Company 2014</p>
+        </footer>
+
+      </div>
+    </div>
+
+    <div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">店小二</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">首页</a></li>
+            <li><a href="order.html">我的订单</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      !window.jQuery && document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'><\/script>");
+    </script>
+    <script src="js/jquery.urldecoder.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+$(function(){
+  var $_GET = (function(){
+    var url = window.document.location.href.toString();
+    var u = url.split("?");
+    if(typeof(u[1]) == "string"){
+      u = u[1].split("&");
+      var get = {};
+      for(var i in u){
+        var j = u[i].split("=");
+        get[j[0]] = j[1];
+      }
+      return get;
+    } else {
+      return {};
+    }
+  })();
+  localStorage.focus = $_GET['focus'] || localStorage.focus || 'no';
+  if(localStorage.focus == 'yes') {
+    $('#tip').hide();
+  }
+  localStorage.user = $_GET['user'] || localStorage.user;
+  (function(){
+    var showWhat = $_GET['show'] || sessionStorage.show;
+    switch(showWhat) {
+      case 'intr':
+        $('ul#myTab li:eq(1) a').tab('show');
+        break;
+    }
+    sessionStorage.show = '';
+  })();
+
+  if(sessionStorage.stores) {
+    var stores = JSON.parse(sessionStorage.stores);
+    fillStores(stores);
+  } else {
+    $.ajax({
+      url: "../wxstore/stores",
+      method: "POST",
+      data: {'user': $_GET['user']},
+      dataType: "json",
+      success: function(data, e) {
+        if(data.ret != 0)
+          return;
+
+        sessionStorage.stores = JSON.stringify(data.data);
+        fillStores(data.data);
+      },
+      error:function(response, status, error){
+      }
+    });
+  }
+  function fillStores(stores) {
+    if(stores.length == 0) {
+      $("div#stores").append("<a href='good.html' class='list-group-item'><span class='badge'>18810001796</span>招商进行中...</a>");
+    } else {
+      for(var i = 0; i < stores.length; i++) {
+        var store = stores[i];
+        var url = store.url || "good.html";
+        url += "?sid=" + store.id + "&name=" + $.url.encode(store.name);
+        $("div#stores").append("<a href='"+url+"' class='list-group-item'><span class='badge'>"+store.phone+"</span>"+store.name+"</a>");
+      }  
+    }
+  }
+});
+    </script>
+
+  </body>
+</html>

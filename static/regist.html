@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html manifest="static/lab.appcache">
+  <head>
+    <title>店小二</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="application-name" content="店小二">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <div class="page-header">
+            <h1>
+              商家注册 
+            </h1>
+          </div>
+          <form class="form-horizontal" role="form" method="POST" action="../wxstore/regist">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">手机</label>
+              <div class="col-sm-10">
+                <input class="form-control" name="phone" type="number" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+              <div class="col-sm-10">
+                <input class="form-control" name='password' type="password" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">确认密码</label>
+              <div class="col-sm-10">
+                <input class="form-control" name='confirm' type="password" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">商家名称</label>
+              <div class="col-sm-10">
+                <input class="form-control" name='sname' type="text" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">商家描述</label>
+              <div class="col-sm-10">
+                <input class="form-control" name="sdesc" type="text" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">图片URL</label>
+              <div class="col-sm-10">
+                <input class="form-control" name='simg' type="text" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">地址</label>
+              <div class="col-sm-10">
+                <input class="form-control" name="saddr" type="text" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button id='regist' type="submit" class="btn btn-default">注册</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      !window.jQuery && document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'><\/script>");
+    </script>
+    <script src="js/jquery.urldecoder.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $("button#regist").on('click', function(e){
+        var password = $("input[name='password']").val();
+        var con_pass = $("input[name='confirm'").val();
+        if(password != con_pass) {
+          alert("两次密码不正确！");
+          return false;
+        }
+        return true;
+      });
+    </script>
+  </body>
+</html>
